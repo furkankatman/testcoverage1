@@ -54,7 +54,7 @@ jobs:
       - name: Debug token
         run: echo "Token exists"
         env:
-            MY_TOKEN: ${{ secrets.MY_TOKEN }
+            MY_TOKEN: ${{ secrets.MY_TOKEN }}
 
 
       - name: Upload Coverage Report
