@@ -24,7 +24,7 @@ jobs:
       run: dotnet build testcoverage1/testcoverage1.sln --no-restore
 
     - name: Run tests with coverage
-      run: dotnet test testcoverage1/testcoverage1.sln --no-build --collect:"XPlat Code Coverage"
+      run: dotnet test testcoverage1/testcoverage1.sln --no-build --collect:"XPlat Code Coverage" --settings coverlet.runsettings
 
 
     - name: Install ReportGenerator
