@@ -47,7 +47,7 @@ jobs:
           reportgenerator \
             -reports:../TestProject1/TestResults/**/coverage.cobertura.xml \
             -targetdir:coveragereport \
-            -reporttypes:Html \
+            -reporttypes:Html;JsonSummary \
             -filefilters:-*Program.cs
             
 
@@ -56,3 +56,17 @@ jobs:
         with:
           name: coverage-report
           path: testcoverage1/coveragereport
+          
+      
+      - name: Extract coverage
+            id: coverage
+            run: |
+              VALUE=$(cat coveragereport/Summary.json | jq '.linecoverage')
+              echo "coverage=$VALUE" >> $GITHUB_OUTPUT
+
+      
+      - name: Comment PR
+               uses: marocchino/sticky-pull-request-comment@v2
+               with:
+               message: |
+                   ✅ Test Coverage: **${{ steps.coverage.outputs.coverage }}%**
