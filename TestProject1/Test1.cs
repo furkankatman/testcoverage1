@@ -8,7 +8,7 @@ namespace TestProject1
     public sealed class Test1
     {
         [TestMethod]
-        public void CarChangesGear_onGearUp()
+        public void CarChangesGear_OnGearUp()
         {
             Car car1 = new Car();
             car1.GearUp();
@@ -16,12 +16,30 @@ namespace TestProject1
         }
 
         [TestMethod]
-        public void CarChangesGear_onGearDown()
+        public void CarChangesGear_OnGearDown()
         {
             Car car1 = new Car();
             car1.GearUp();
             car1.GearDown();
             StringAssert.Contains(car1.ShowStateAsString(), "Gear: 0");
+        }
+
+        [TestMethod]
+        public void CarDoesntChangeGear_OnGearDown_WhenInNeutral()
+        {
+            Car car1 = new Car();
+            car1.GearDown();
+            StringAssert.Contains(car1.ShowStateAsString(), "Gear: 0");
+        }
+
+        [TestMethod]
+        public void CarTogglesLights()
+        {
+            Car car1 = new Car();
+            car1.ToggleLights();
+            StringAssert.Contains(car1.ShowStateAsString(), "Lights: ON");
+            car1.ToggleLights();
+            StringAssert.Contains(car1.ShowStateAsString(), "Lights: OFF");
         }
     }
 }
