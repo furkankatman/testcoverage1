@@ -65,6 +65,7 @@ jobs:
           echo "coverage=$VALUE" >> $GITHUB_OUTPUT
 
       - name: Comment PR
+        if: github.event_name == 'push'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
