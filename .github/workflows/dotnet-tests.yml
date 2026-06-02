@@ -73,7 +73,8 @@ jobs:
       - name: Comment PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-        message: |
-                ✅ Test Coverage: **${{ steps.coverage.outputs.coverage }}%**
-                GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+          message: |
+            ✅ Test Coverage: **${{ steps.coverage.outputs.coverage }}%**
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
 
