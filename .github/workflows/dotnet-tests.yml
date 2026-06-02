@@ -37,14 +37,11 @@ jobs:
 
       - name: Generate Coverage Report
         run: |
-          
-            FILE=$(find . -name "coverage.cobertura.xml")
-            echo "Found coverage file: $FILE"
-            reportgenerator \
-              -reports:"$FILE" \
-              -targetdir:coveragereport \
-              -reporttypes:Html
-
+          reportgenerator \
+            -reports:testcoverage1/TestProject1/TestResults/**/coverage.cobertura.xml \
+            -targetdir:coveragereport \
+            -reporttypes:Html
+            
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
