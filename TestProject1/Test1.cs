@@ -8,6 +8,9 @@ using testcoverage1;
 namespace TestProject1
 {
     [TestClass]
+
+    [DoNotParallelize]
+
     public sealed class Test1
     {
         [TestMethod]
