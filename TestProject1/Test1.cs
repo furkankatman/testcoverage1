@@ -98,7 +98,7 @@ namespace TestProject1
                 Lights: ON
                 -------------------
                 """;
-                Assert.AreEqual(expectedLog, sw.ToString().Trim());
+                Assert.AreEqual(expectedLog.Trim(), sw.ToString().Trim());
             }
             finally
             {
