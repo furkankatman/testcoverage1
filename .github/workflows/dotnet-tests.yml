@@ -70,6 +70,3 @@ jobs:
         with:
           message: |
             ✅ Test Coverage: **${{ steps.coverage.outputs.coverage }}%**
-        
-        env:
-            GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
