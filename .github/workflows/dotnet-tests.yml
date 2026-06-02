@@ -64,17 +64,19 @@ jobs:
           path: testcoverage1/coveragereport
           
       
-      - name: Extract coverage
-        id: coverage
-        run: |
-          VALUE=$(cat coveragereport/Summary.json | jq '.LineCoverage')
-          echo "coverage=$VALUE" >> $GITHUB_OUTPUT
+      
+       - name: Extract coverage
+       id: coverage
+       run: |
+           VALUE=$(jq -r '.LineCoverage' coveragereport/Summary.json)
+           echo "coverage=$VALUE" >> $GITHUB_OUTPUT
+
 
       - name: Comment PR
+        if: github.event.pull_request.head.repo.fork == false
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
             ✅ Test Coverage: **${{ steps.coverage.outputs.coverage }}%**
         env:
           GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
-
