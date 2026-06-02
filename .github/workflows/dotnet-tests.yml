@@ -37,6 +37,13 @@ jobs:
 
       - name: Generate Coverage Report
         run: |
+          
+          echo "Current directory:"
+          pwd
+          echo "Listing files here:"
+          ls
+          echo "Finding coverage file:"
+          find . -name "coverage.cobertura.xml"
           reportgenerator \
             -reports:testcoverage1/TestProject1/TestResults/**/coverage.cobertura.xml \
             -targetdir:coveragereport \
