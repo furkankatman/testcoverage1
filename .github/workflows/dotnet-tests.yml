@@ -1,44 +1,53 @@
-name: .NET Tests + Coverage
+name: Build & Test with Coverage
 
 on:
   push:
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
-  build-test:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
 
-    - name: Restore
-      run: dotnet restore testcoverage1/testcoverage1.sln
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build testcoverage1/testcoverage1.sln --no-restore
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
 
-    - name: Run tests with coverage
-      run: dotnet test testcoverage1/testcoverage1.sln --no-build --collect:"XPlat Code Coverage" --settings .runSettings
+      - name: Run tests with coverage
+        run: dotnet test \
+          --no-build \
+          --configuration Release \
+          --collect:"XPlat Code Coverage" \
+          --settings coverlet.runSettings
 
+      # ✅ install reportgenerator
+      - name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
-    - name: Install ReportGenerator
-      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+      # ✅ generate clean HTML report
+      - name: Generate coverage report
+        run: |
+          reportgenerator \
+            -reports:**/coverage.cobertura.xml \
+            -targetdir:coveragereport \
+            -reporttypes:Html
 
-    - name: Generate coverage report
-      run: |
-        reportgenerator \
-          -reports:**/coverage.cobertura.xml \
-          -targetdir:coveragereport \
-          -reporttypes:Html
-
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v4
-      with:
-        name: coverage-report
-        path: coveragereport
+      # ✅ upload report as artifact
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coveragereport
+``
