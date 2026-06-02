@@ -1,5 +1,8 @@
-﻿namespace testcoverage1
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace testcoverage1
 {
+    [ExcludeFromCodeCoverage]
     internal class Program
     {
         static void Main(string[] args)

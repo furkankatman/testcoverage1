@@ -60,5 +60,16 @@ namespace TestProject1
             car1.Brake(20);
             StringAssert.Contains(car1.ShowStateAsString(), "Speed: 0 km/h");
         }
+
+        [TestMethod]
+        public void CarStateIsShownCorrectly()
+        {
+            Car car1 = new Car();
+            car1.GearUp();
+            car1.Accelerate(30);
+            car1.ToggleLights();
+            string expectedState = "Gear: 1, Speed: 30 km/h, Lights: ON";
+            Assert.AreEqual(expectedState, car1.ShowStateAsString());
+        }
     }
 }
