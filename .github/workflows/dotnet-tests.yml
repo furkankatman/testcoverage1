@@ -66,7 +66,7 @@ jobs:
 
       
       - name: Comment PR
-               uses: marocchino/sticky-pull-request-comment@v2
-               with:
-               message: |
-                   ✅ Test Coverage: **${{ steps.coverage.outputs.coverage }}%**
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            ✅ Test Coverage: **${{ steps.coverage.outputs.coverage }}%**
