@@ -41,5 +41,24 @@ namespace TestProject1
             car1.ToggleLights();
             StringAssert.Contains(car1.ShowStateAsString(), "Lights: OFF");
         }
+
+        [TestMethod]
+        public void CarAccelerates()
+        {
+            Car car1 = new Car();
+            car1.Accelerate(20);
+            StringAssert.Contains(car1.ShowStateAsString(), "Speed: 20 km/h");
+        }
+
+        [TestMethod]
+        public void CarBrakes()
+        {
+            Car car1 = new Car();
+            car1.Accelerate(20);
+            car1.Brake(5);
+            StringAssert.Contains(car1.ShowStateAsString(), "Speed: 15 km/h");
+            car1.Brake(20);
+            StringAssert.Contains(car1.ShowStateAsString(), "Speed: 0 km/h");
+        }
     }
 }
