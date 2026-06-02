@@ -2,7 +2,7 @@
 
 namespace testcoverage1
 {
-    [ExcludeFromCodeCoverage]
+    
     internal class Program
     {
         static void Main(string[] args)
