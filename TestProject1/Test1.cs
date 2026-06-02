@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestPlatform.Utilities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.IO;
 using testcoverage1;
 
 
@@ -62,7 +65,7 @@ namespace TestProject1
         }
 
         [TestMethod]
-        public void CarStateIsShownCorrectly()
+        public void CarStateAsStringIsShownCorrectly()
         {
             Car car1 = new Car();
             car1.GearUp();
@@ -70,6 +73,41 @@ namespace TestProject1
             car1.ToggleLights();
             string expectedState = "Gear: 1, Speed: 30 km/h, Lights: ON";
             Assert.AreEqual(expectedState, car1.ShowStateAsString());
+        }
+
+        [TestMethod]
+        public void CarStateLogsOnConsole()
+        {
+
+            var originalOut = Console.Out;
+
+            try
+            {
+                Car car1 = new Car();
+                car1.GearUp();
+                car1.Accelerate(30);
+                car1.ToggleLights();
+                var sw = new StringWriter();
+                Console.SetOut(sw);
+
+                car1.ShowState();
+                string expectedLog = """
+                ---- Car State ----
+                Gear: 1
+                Speed: 30 km/h
+                Lights: ON
+                -------------------
+                """;
+                Assert.AreEqual(expectedLog, sw.ToString().Trim());
+            }
+            finally
+            {
+                Console.SetOut(originalOut);
+            }
+
+
+          
+
         }
     }
 }
