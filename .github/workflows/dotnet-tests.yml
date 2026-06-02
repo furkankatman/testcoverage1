@@ -61,7 +61,7 @@ jobs:
       - name: Extract coverage
         id: coverage
         run: |
-          VALUE=$(cat coveragereport/Summary.json | jq '.linecoverage')
+          VALUE=$(cat coveragereport/Summary.json | jq '.LineCoverage')
           echo "coverage=$VALUE" >> $GITHUB_OUTPUT
 
       - name: Comment PR
