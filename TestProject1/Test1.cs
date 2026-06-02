@@ -1,4 +1,4 @@
-﻿using FluentAssert;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using testcoverage1;
 
 
@@ -12,7 +12,7 @@ namespace TestProject1
         {
             Car car1 = new Car();
             car1.GearUp();
-            car1.ShowStateAsString().ToLower().ShouldContain("gear: 1");
+            StringAssert.Contains(car1.ShowStateAsString(), "Gear: 1");
         }
     }
 }
