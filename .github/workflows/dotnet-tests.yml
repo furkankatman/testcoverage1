@@ -71,8 +71,9 @@ jobs:
           echo "coverage=$VALUE" >> $GITHUB_OUTPUT
 
       - name: Comment PR
-        if: github.event.pull_request.head.repo.fork == false
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          message: |
-            ✅ Test Coverage: **${{ steps.coverage.outputs.coverage }}%**
+        message: |
+                ✅ Test Coverage: **${{ steps.coverage.outputs.coverage }}%**
+                GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+
