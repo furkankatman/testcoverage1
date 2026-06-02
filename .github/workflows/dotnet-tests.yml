@@ -59,12 +59,11 @@ jobs:
           
       
       - name: Extract coverage
-            id: coverage
-            run: |
-              VALUE=$(cat coveragereport/Summary.json | jq '.linecoverage')
-              echo "coverage=$VALUE" >> $GITHUB_OUTPUT
+        id: coverage
+        run: |
+          VALUE=$(cat coveragereport/Summary.json | jq '.linecoverage')
+          echo "coverage=$VALUE" >> $GITHUB_OUTPUT
 
-      
       - name: Comment PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
