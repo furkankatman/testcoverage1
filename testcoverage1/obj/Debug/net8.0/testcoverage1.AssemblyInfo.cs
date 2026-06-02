@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("testcoverage1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+70139ea33d4ed242ca052804406712664e13a451")]
 [assembly: System.Reflection.AssemblyProductAttribute("testcoverage1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("testcoverage1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
