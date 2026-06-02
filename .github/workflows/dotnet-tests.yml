@@ -12,7 +12,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: testcoverage1   # 👈 your project folder
+        working-directory: testcoverage1
 
     steps:
       - name: Checkout
@@ -30,47 +30,30 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
       - name: Test with Coverage
-        run: dotnet test --no-build --configuration Release --collect:"XPlat Code Coverage" --settings ../.runSettings /p:ExcludeByFile="**/Program.cs"
+        run: dotnet test --no-build --configuration Release --collect:"XPlat Code Coverage" --settings ../.runSettings
 
       - name: Install ReportGenerator
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
       - name: Generate Coverage Report
         run: |
-          
-          echo "Current directory:"
-          pwd
-          echo "Listing files here:"
-          ls
-          echo "Finding coverage file:"
-          find . -name "coverage.cobertura.xml"
           reportgenerator \
             -reports:../TestProject1/TestResults/**/coverage.cobertura.xml \
             -targetdir:coveragereport \
             -reporttypes:"Html;JsonSummary" \
             -filefilters:-*Program.cs
-            
-      
-      - name: Debug token
-        run: echo "Token exists"
-        env:
-            MY_TOKEN: ${{ secrets.MY_TOKEN }}
-
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: testcoverage1/coveragereport
-          
-      
-      
-       - name: Extract coverage
-       id: coverage
-       run: |
-           VALUE=$(jq -r '.LineCoverage' coveragereport/Summary.json)
-           echo "coverage=$VALUE" >> $GITHUB_OUTPUT
+          path: coveragereport
 
+      - name: Extract coverage
+        id: coverage
+        run: |
+          VALUE=$(jq -r '.LineCoverage' coveragereport/Summary.json)
+          echo "coverage=$VALUE" >> $GITHUB_OUTPUT
 
       - name: Comment PR
         if: github.event.pull_request.head.repo.fork == false
