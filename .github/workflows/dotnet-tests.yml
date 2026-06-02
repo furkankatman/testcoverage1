@@ -1,4 +1,4 @@
-name: Build & Test with Coverage
+name: Build Test Coverage
 
 on:
   push:
@@ -10,8 +10,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: testcoverage1   # 👈 your project folder
+
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup .NET
@@ -19,34 +23,31 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Restore dependencies
+      - name: Restore
         run: dotnet restore
 
       - name: Build
         run: dotnet build --no-restore --configuration Release
 
-      - name: Run tests with coverage
+      - name: Test with Coverage
         run: dotnet test \
           --no-build \
           --configuration Release \
           --collect:"XPlat Code Coverage" \
-          --settings coverlet.runSettings
+          --settings coverlet.runsettings
 
-      # ✅ install reportgenerator
       - name: Install ReportGenerator
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
-      # ✅ generate clean HTML report
-      - name: Generate coverage report
+      - name: Generate Coverage Report
         run: |
           reportgenerator \
             -reports:**/coverage.cobertura.xml \
             -targetdir:coveragereport \
             -reporttypes:Html
 
-      # ✅ upload report as artifact
-      - name: Upload coverage report
+      - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coveragereport
+          path: testcoverage1/coveragereport
