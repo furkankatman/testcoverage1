@@ -47,7 +47,7 @@ jobs:
           reportgenerator \
             -reports:../TestProject1/TestResults/**/coverage.cobertura.xml \
             -targetdir:coveragereport \
-            -reporttypes:Html;JsonSummary \
+            -reporttypes:"Html;JsonSummary" \
             -filefilters:-*Program.cs
             
 
