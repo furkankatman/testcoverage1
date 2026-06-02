@@ -54,14 +54,12 @@ jobs:
         run: |
           VALUE=$(jq -r '.LineCoverage' coveragereport/Summary.json)
           echo "coverage=$VALUE" >> $GITHUB_OUTPUT
-          
-      
-       - name: Debug files
-         run: |
-           pwd
-           echo "-----"
-           find . -name "Summary.json"
 
+      - name: Debug files
+        run: |
+          pwd
+          echo "-----"
+          find . -name "Summary.json"
 
       - name: Comment PR
         if: github.event.pull_request.head.repo.fork == false
