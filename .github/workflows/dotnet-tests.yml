@@ -44,7 +44,7 @@ jobs:
       - name: Generate Coverage Report
         run: |
           reportgenerator \
-            -reports:**/coverage.cobertura.xml \
+            -reports:../TestProject1/TestResults/**/coverage.cobertura.xml \
             -targetdir:coveragereport \
             -reporttypes:"Html;JsonSummary" \
             -filefilters:-*Program.cs
@@ -69,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coveragereport
+          path: testcoverage1/coveragereport
 
       
       - name: Extract coverage
@@ -111,7 +111,7 @@ jobs:
       - name: Generate Coverage Report for Main
         run: |
           reportgenerator \
-            -reports:**/coverage.cobertura.xml \
+            -reports:../TestProject1/TestResults/**/coverage.cobertura.xml\
             -targetdir:coveragereport-main \
             -reporttypes:"Html;JsonSummary" \
             -filefilters:-*Program.cs
