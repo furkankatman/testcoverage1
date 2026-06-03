@@ -64,9 +64,6 @@ jobs:
           CURRENT=$(jq -r '.summary.linecoverage' coveragereport/Summary.json)
           echo "current=$CURRENT" >> $GITHUB_OUTPUT
           
-        
-
-
       
       - name: Debug XML content
         run: |
@@ -94,6 +91,15 @@ jobs:
       - name: Test with Coverage on Main
         run: dotnet test --configuration Release --collect:"XPlat Code Coverage" --settings ../.runSettings
         
+       
+      - name: Generate Coverage Report for Main
+        run: |
+          reportgenerator \
+            -reports:**/TestResults/**/coverage.cobertura.xml \
+            -targetdir:coveragereport-main \
+            -reporttypes:"JsonSummary"
+
+        
       - name: Extract base coverage
         id: base
         run: |
@@ -116,17 +122,17 @@ jobs:
 
 
         
-       - name: Comment PR
-         uses: marocchino/sticky-pull-request-comment@v2
-         with:
-           message: |
-             ## 🧪 Coverage Report
-
-             ✅ Current: **${{ steps.coverage.outputs.current }}%**
-             📉 Base (main): **${{ steps.base.outputs.base }}%**
-             🔄 Change: **${{ steps.diff.outputs.delta }}%**
-         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Comment PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            ## 🧪 Coverage Report
+      
+            ✅ Current: **${{ steps.coverage.outputs.current }}%**
+            📉 Base (main): **${{ steps.base.outputs.base }}%**
+            🔄 Change: **${{ steps.diff.outputs.delta }}%**
+        env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
       # - name: Comment PR
         # if: github.event.pull_request.head.repo.fork == false
