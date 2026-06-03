@@ -61,6 +61,11 @@ jobs:
         run: |
           VALUE=$(jq -r '.summary.linecoverage' coveragereport/Summary.json)
           echo "coverage=$VALUE" >> $GITHUB_OUTPUT
+          CURRENT=$(jq -r '.summary.linecoverage' coveragereport/Summary.json)
+          echo "current=$CURRENT" >> $GITHUB_OUTPUT
+          
+        
+
 
       
       - name: Debug XML content
@@ -79,12 +84,55 @@ jobs:
           pwd
           echo "-----"
           find . -name "Summary.json"
+          
+          
+      - name: Checkout main branch
+        run: |
+          git fetch origin main
+          git checkout origin/main
+          
+      - name: Test with Coverage on Main
+        run: dotnet test --configuration Release --collect:"XPlat Code Coverage" --settings ../.runSettings
+        
+      - name: Extract base coverage
+        id: base
+        run: |
+          BASE=$(jq -r '.summary.linecoverage' coveragereport-main/Summary.json)
+          echo "base=$BASE" >> $GITHUB_OUTPUT
+          
+      - name: Calculate diff
+        id: diff
+        run: |
+          CURRENT=${{ steps.coverage.outputs.current }}
+          BASE=${{ steps.base.outputs.base }}
+          
+          DELTA=$(echo "$CURRENT - $BASE" | bc)
+                   if (( $(echo "$DELTA > 0" | bc -l) )); then
+            SIGN="+"
+          else
+            SIGN=""
+          fi
+                   echo "delta=${SIGN}${DELTA}" >> $GITHUB_OUTPUT
 
-      - name: Comment PR
-        if: github.event.pull_request.head.repo.fork == false
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          message: |
-            ✅ Test Coverage: **${{ steps.coverage.outputs.coverage }}%**
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+
+        
+       - name: Comment PR
+         uses: marocchino/sticky-pull-request-comment@v2
+         with:
+           message: |
+             ## 🧪 Coverage Report
+
+             ✅ Current: **${{ steps.coverage.outputs.current }}%**
+             📉 Base (main): **${{ steps.base.outputs.base }}%**
+             🔄 Change: **${{ steps.diff.outputs.delta }}%**
+         env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+      # - name: Comment PR
+        # if: github.event.pull_request.head.repo.fork == false
+        # uses: marocchino/sticky-pull-request-comment@v2
+        # with:
+          # message: |
+            # ✅ Test Coverage: **${{ steps.coverage.outputs.coverage }}%**
+        # env:
+          # GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
