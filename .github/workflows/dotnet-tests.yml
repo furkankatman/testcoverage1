@@ -147,7 +147,7 @@ jobs:
             ✅ Current: **${{ steps.coverage.outputs.current }}%**
             📉 Base (main): **${{ steps.base.outputs.base }}%**
             🔄 Change: **${{ steps.diff.outputs.delta }}%**
-        ---
+            ---
               📦 **Download HTML Report**
               
               👉 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
