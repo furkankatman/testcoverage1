@@ -63,7 +63,7 @@ jobs:
       
       - name: Debug XML content
         run: |
-          cat coverage/*/coverage.cobertura.xml | head -n 50
+          cat **/TestResults/**/coverage.cobertura.xml | head -n 50
 
 
       - name: Debug files
