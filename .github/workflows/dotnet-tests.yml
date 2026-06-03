@@ -49,6 +49,22 @@ jobs:
             -reporttypes:"Html;JsonSummary" \
             -filefilters:-*Program.cs
 
+        
+      - name: Debug coverage location
+        run: |
+          echo "Workspace:"
+          pwd
+          echo "------"
+          echo "Listing repo root:"
+          ls -la
+          echo "------"
+          echo "Listing project dir:"
+          ls -la testcoverage1 || echo "missing"
+          echo "------"
+          echo "Listing report:"
+          ls -la testcoverage1/coveragereport || echo "report missing"
+
+        
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         with:
