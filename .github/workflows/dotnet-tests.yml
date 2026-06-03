@@ -145,7 +145,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)
 
-          ARTIFACT_ID=$(echo $RESPONSE | jq -r '.artifacts[0].id')
+          ARTIFACT_ID=$(echo $RESPONSE | jq -r '.artifacts[] | select(.name=="coverage-report") | .id')
 
           echo "url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/$ARTIFACT_ID" >> $GITHUB_OUTPUT
 
