@@ -60,6 +60,11 @@ jobs:
         run: |
           VALUE=$(jq -r '.lineCoverage' coveragereport/Summary.json)
           echo "coverage=$VALUE" >> $GITHUB_OUTPUT
+      
+      - name: Debug XML content
+        run: |
+          cat coverage/*/coverage.cobertura.xml | head -n 50
+
 
       - name: Debug files
         run: |
