@@ -120,7 +120,6 @@ jobs:
           fi
                    echo "delta=${SIGN}${DELTA}" >> $GITHUB_OUTPUT
 
-
         
       - name: Comment PR
         uses: marocchino/sticky-pull-request-comment@v2
