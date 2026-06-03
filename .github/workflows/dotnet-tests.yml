@@ -137,6 +137,18 @@ jobs:
           fi
                    echo "delta=${SIGN}${DELTA}" >> $GITHUB_OUTPUT
 
+      
+      - name: Get artifact URL
+        id: artifact
+        run: |
+          RESPONSE=$(curl -s \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)
+
+          ARTIFACT_ID=$(echo $RESPONSE | jq -r '.artifacts[0].id')
+
+          echo "url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/$ARTIFACT_ID" >> $GITHUB_OUTPUT
+
         
       - name: Comment PR
         uses: marocchino/sticky-pull-request-comment@v2
@@ -150,7 +162,7 @@ jobs:
             ---
               📦 **Download HTML Report**
               
-              👉 https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+              👉 ${{ steps.artifact.outputs.url }}
 
         env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
