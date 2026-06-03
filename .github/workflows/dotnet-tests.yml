@@ -67,7 +67,7 @@ jobs:
           
           
       - name: Debug Summary.json
-      run: |
+        run: |
           cat coveragereport/Summary.json
 
 
