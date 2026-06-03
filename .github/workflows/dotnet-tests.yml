@@ -44,7 +44,7 @@ jobs:
       - name: Generate Coverage Report
         run: |
           reportgenerator \
-            -reports:../TestProject1/TestResults/**/coverage.cobertura.xml \
+            -reports:**/coverage.cobertura.xml \
             -targetdir:coveragereport \
             -reporttypes:"Html;JsonSummary" \
             -filefilters:-*Program.cs
@@ -111,7 +111,7 @@ jobs:
       - name: Generate Coverage Report for Main
         run: |
           reportgenerator \
-            -reports:../TestProject1/TestResults/**/coverage.cobertura.xml\
+            -reports:**/coverage.cobertura.xml \
             -targetdir:coveragereport-main \
             -reporttypes:"Html;JsonSummary" \
             -filefilters:-*Program.cs
