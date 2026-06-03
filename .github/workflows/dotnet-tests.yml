@@ -95,9 +95,10 @@ jobs:
       - name: Generate Coverage Report for Main
         run: |
           reportgenerator \
-            -reports:**/TestResults/**/coverage.cobertura.xml \
+            -reports:../TestProject1/TestResults/**/coverage.cobertura.xml\
             -targetdir:coveragereport-main \
-            -reporttypes:"JsonSummary"
+            -reporttypes:"Html;JsonSummary" \
+            -filefilters:-*Program.cs
 
         
       - name: Extract base coverage
