@@ -55,11 +55,13 @@ jobs:
           name: coverage-report
           path: coveragereport
 
+      
       - name: Extract coverage
         id: coverage
         run: |
-          VALUE=$(jq -r '.lineCoverage' coveragereport/Summary.json)
+          VALUE=$(jq -r '.summary.linecoverage' coveragereport/Summary.json)
           echo "coverage=$VALUE" >> $GITHUB_OUTPUT
+
       
       - name: Debug XML content
         run: |
