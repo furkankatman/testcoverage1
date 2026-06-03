@@ -64,6 +64,12 @@ jobs:
       - name: Debug XML content
         run: |
           cat **/TestResults/**/coverage.cobertura.xml | head -n 50
+          
+          
+      - name: Debug Summary.json
+      run: |
+          cat coveragereport/Summary.json
+
 
 
       - name: Debug files
