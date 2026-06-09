@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using testcoverage1;
+using WebApplication1.Controllers;
 
 
 namespace TestProject1
@@ -128,6 +130,16 @@ namespace TestProject1
             {
                 Console.SetOut(originalOut);
             }
+        }
+
+        [TestMethod]
+        public async Task WeatherForecastControllerOpensSunroof()
+        {
+            var controller = new WeatherForecastController(NullLogger<WeatherForecastController>.Instance);
+
+            bool result = await controller.SunroofOpen();
+
+            Assert.IsTrue(result);
         }
 
 

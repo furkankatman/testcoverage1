@@ -17,6 +17,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\testcoverage1\testcoverage1.csproj" />
+	  <ProjectReference Include="..\WebApplication1\WebApplication1.csproj" />
 	</ItemGroup>
 
 </Project>
