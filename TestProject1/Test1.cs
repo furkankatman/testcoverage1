@@ -132,6 +132,10 @@ namespace TestProject1
             }
         }
 
+        /// <summary>
+        /// gets the weather forecast and opens the sunroof if the weather is sunny. This test checks that the sunroof opens successfully.
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task WeatherForecastControllerOpensSunroof()
         {
