@@ -1,8 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using testcoverage1;
+using WebApplication1.Controllers;
 
 
 namespace TestProject1
@@ -105,10 +108,44 @@ namespace TestProject1
             {
                 Console.SetOut(originalOut);
             }
-
-
-          
-
         }
+
+        [TestMethod]
+        public async Task CarOpensSunroof()
+        {
+            var originalOut = Console.Out;
+
+            try
+            {
+                Car car1 = new Car();
+                var sw = new StringWriter();
+                Console.SetOut(sw);
+
+                bool result = await car1.SunroofOpen();
+
+                Assert.IsTrue(result);
+                StringAssert.Contains(sw.ToString(), "Sunroof is now open.");
+            }
+            finally
+            {
+                Console.SetOut(originalOut);
+            }
+        }
+
+        /// <summary>
+        /// gets the weather forecast and opens the sunroof if the weather is sunny. This test checks that the sunroof opens successfully.
+        /// </summary>
+        /// <returns>z</returns>
+        [TestMethod]
+        public async Task WeatherForecastControllerOpensSunroof()
+        {
+            var controller = new WeatherForecastController(NullLogger<WeatherForecastController>.Instance);
+
+            bool result = await controller.SunroofOpen();
+
+            Assert.IsTrue(result);
+        }
+
+
     }
 }

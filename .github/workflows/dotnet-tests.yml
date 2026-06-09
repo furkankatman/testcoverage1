@@ -49,11 +49,27 @@ jobs:
             -reporttypes:"Html;JsonSummary" \
             -filefilters:-*Program.cs
 
+        
+      - name: Debug coverage location
+        run: |
+          echo "Workspace:"
+          pwd
+          echo "------"
+          echo "Listing repo root:"
+          ls -la
+          echo "------"
+          echo "Listing project dir:"
+          ls -la testcoverage1 || echo "missing"
+          echo "------"
+          echo "Listing report:"
+          ls -la testcoverage1/coveragereport || echo "report missing"
+
+        
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coveragereport
+          path: testcoverage1/coveragereport
 
       
       - name: Extract coverage
@@ -95,9 +111,10 @@ jobs:
       - name: Generate Coverage Report for Main
         run: |
           reportgenerator \
-            -reports:**/TestResults/**/coverage.cobertura.xml \
+            -reports:../TestProject1/TestResults/**/coverage.cobertura.xml\
             -targetdir:coveragereport-main \
-            -reporttypes:"JsonSummary"
+            -reporttypes:"Html;JsonSummary" \
+            -filefilters:-*Program.cs
 
         
       - name: Extract base coverage
@@ -120,6 +137,17 @@ jobs:
           fi
                    echo "delta=${SIGN}${DELTA}" >> $GITHUB_OUTPUT
 
+      
+      - name: Get artifact URL
+        id: artifact
+        run: |
+          RESPONSE=$(curl -s \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts)
+
+          ARTIFACT_ID=$(echo $RESPONSE | jq -r '.artifacts[] | select(.name=="coverage-report") | .id')
+
+          echo "url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/$ARTIFACT_ID" >> $GITHUB_OUTPUT
 
         
       - name: Comment PR
@@ -131,6 +159,11 @@ jobs:
             ✅ Current: **${{ steps.coverage.outputs.current }}%**
             📉 Base (main): **${{ steps.base.outputs.base }}%**
             🔄 Change: **${{ steps.diff.outputs.delta }}%**
+            ---
+              📦 **Download HTML Report**
+              
+              👉 ${{ steps.artifact.outputs.url }}
+
         env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
