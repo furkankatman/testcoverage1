@@ -30,6 +30,10 @@ namespace WebApplication1.Controllers
             .ToArray();
         }
 
+        /// <summary>
+        /// gets sunroof stats
+        /// </summary>
+        /// <returns>z</returns>
         [HttpGet("sunroof/open", Name = "OpenSunroof")]
         public async Task<bool> SunroofOpen()
         {
