@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using testcoverage1;
 
 
@@ -105,10 +106,30 @@ namespace TestProject1
             {
                 Console.SetOut(originalOut);
             }
-
-
-          
-
         }
+
+        [TestMethod]
+        public async Task CarOpensSunroof()
+        {
+            var originalOut = Console.Out;
+
+            try
+            {
+                Car car1 = new Car();
+                var sw = new StringWriter();
+                Console.SetOut(sw);
+
+                bool result = await car1.SunroofOpen();
+
+                Assert.IsTrue(result);
+                StringAssert.Contains(sw.ToString(), "Sunroof is now open.");
+            }
+            finally
+            {
+                Console.SetOut(originalOut);
+            }
+        }
+
+
     }
 }

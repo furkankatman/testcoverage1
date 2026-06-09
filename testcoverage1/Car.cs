@@ -11,6 +11,7 @@ namespace testcoverage1
         private int gear;
         private int speed;
         private bool lightsOn;
+        private bool sunroofOpen;
 
         public Car()
         {
@@ -70,5 +71,14 @@ namespace testcoverage1
         {
             return $"Gear: {gear}, Speed: {speed} km/h, Lights: {(lightsOn ? "ON" : "OFF")}";
         }
+
+        public async Task<bool> SunroofOpen()
+        {
+            await Task.Delay(1000); // Simulate time taken to open the sunroof
+            Console.WriteLine("Sunroof is now open.");
+            sunroofOpen = true;
+            return true;
+        }
+
     }
 }
